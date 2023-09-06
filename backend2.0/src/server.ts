@@ -1,7 +1,7 @@
 import express from 'express'
-import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
-import { Database } from './database'
+import dotenv from 'dotenv'
+import { Database } from '../src/database'
 
 dotenv.config()
 
@@ -11,21 +11,10 @@ const PORT = process.env.PORT
 // Singleton pattern
 const db = Database.getInstance()
 
-void (async () => {
-  try {
-    const users = await db.query('SELECT * FROM users')
-    console.log(users[0].username)
-  } catch (error) {
-    console.log(error)
-  } finally {
-    await db.close()
-  }
-})()
-
-app.use(express.static('C:/.Computer/.Programming Projects/react-playground/frontend/dist'))
+app.use(express.json())
 
 app.get('/', (req, res) => {
-  res.sendFile('C:/.Computer/.Programming Projects/react-playground/frontend/dist/index.html')
+  res.send('Hello World!')
 })
 
 app.post('/user', async (req, res) => {
