@@ -12,7 +12,7 @@ function RegistrationForm() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://your_backend_url/user', formData);
+            const response = await axios.post('https://your_backend_url/user', formData);
 
             console.log(response.data.message);
         } catch (error) {

@@ -8,19 +8,22 @@ export default function RegistrationForm() {
     });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+ 
+      e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1/user', {
+            console.log(formData)
+            const response = await fetch('https://127.0.0.1:3000/user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
             });
-
+            console.log('Full response: ', response)
             const data = await response.json();
-
+            console.log('parsed data: ', data)
+        
             if(response.ok) {
                 console.log(data.message);
             } else {
