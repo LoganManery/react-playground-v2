@@ -1,4 +1,4 @@
-import express from 'express'
+import express, {Request, Response, NextFunction} from 'express'
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser'
 import { authenticateJWT } from './middleware/authenticateJWT'
 import { Database } from '../src/database'
 import fs from 'fs'
-import https from 'https'
+import https, { ServerOptions } from 'https'
 
 const app = express()
 
@@ -15,7 +15,7 @@ dotenv.config()
 
 const privateKey = fs.readFileSync("C:/Users/Logan/key.pem", 'utf8');
 const certificate = fs.readFileSync("C:/Users/Logan/cert.pem", 'utf8');
-const credentials = { key: privateKey, cert: certificate, passphrase: 'Ha99yJo11yJa$$' };
+const credentials = { key: privateKey, cert: certificate };
 
 const httpsServer = https.createServer(credentials, app);
 
@@ -33,17 +33,29 @@ app.use(express.json())
 
 app.use(cookieParser())
 
-app.use((req, res, next) => {
-  if(!req.secure) {
-    return res.redirect('https://' + req.headers.host + req.url);
-  }
-})
+// Redirect to https, does this even work! this caused me so much pain and is being kept here as a reminder of the pain it cauesed me.
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   if(!req.secure) {
+//     return res.redirect('https://' + req.headers.host + req.url);
+//   }
+// })
 
-app.get('/', (req, res) => {
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - Body: ${JSON.stringify(req.body)}`);
+  next();
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log('Origin header:', req.headers.origin);
+  console.log('Access-Control headers:', res.get('Access-Control-Allow-Origin'));
+  next();
+});
+
+app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
 })
 
-app.get('/users', async (req, res) => {
+app.get('/users', async (req: Request, res: Response) => {
   try {
       const [users] = await db.query('SELECT `username` FROM `users`')
       res.status(200).json(users);
@@ -52,7 +64,7 @@ app.get('/users', async (req, res) => {
   }
 })
 
-app.post('/user', async (req, res) => {
+app.post('/user', async (req: Request, res: Response) => {
   try {
     const { username, password, email } = req.body
 
@@ -87,6 +99,7 @@ app.post('/user', async (req, res) => {
 })
 
 app.post('/login', async (req, res) => {
+  console.log(`${new Date().toISOString()} - Received login request for username: ${req.body.username}`);
   try {
     const { username, password } = req.body
     console.log('username: ', username)
