@@ -9,7 +9,7 @@ import https from 'https'
 // Routes
 import loginRoutes from './routes/login/login'
 import homeRoutes from './routes/home/home'
-import blogsRoutes from './routes/blogs/blogs'
+import postsRoutes from './routes/posts/posts'
 import userRoutes from './routes/user/user'
 import morganWinston from './helpers/morganWinston'
 
@@ -51,7 +51,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/login', loginRoutes)
 app.use('/home', homeRoutes)
-app.use('/blogs', blogsRoutes)
+app.use('/posts', postsRoutes)
 app.use('/user', userRoutes)
 
 httpsServer.listen(PORT, () => {
