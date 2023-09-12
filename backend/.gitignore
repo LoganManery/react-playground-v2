@@ -2,3 +2,5 @@ node_modules
 .env
 certs
 logs
+
+# Ignore all files in the root except the .gitignore file
