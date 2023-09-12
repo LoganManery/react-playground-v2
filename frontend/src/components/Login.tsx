@@ -14,7 +14,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
     // Call backend API
     try {
-      const response = await fetch('https://127.0.0.1:3000/login', {
+      const response = await fetch('https://127.0.0.1:3000/login/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

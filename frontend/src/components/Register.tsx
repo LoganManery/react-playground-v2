@@ -13,7 +13,7 @@ export default function RegistrationForm() {
 
         try {
             console.log(formData)
-            const response = await fetch('https://127.0.0.1:3000/user', {
+            const response = await fetch('https://127.0.0.1:3000/user/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
