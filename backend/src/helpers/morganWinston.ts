@@ -2,7 +2,7 @@ import morgan from 'morgan'
 import logger from './logger'
 
 const stream = {
-  write: (message) => {
+  write: (message: string) => {
     logger.info(message.trim())
   }
 }

@@ -18,7 +18,8 @@ export default function RegistrationForm() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                credentials: 'include'
             });
             console.log('Full response: ', response)
             const data = await response.json();

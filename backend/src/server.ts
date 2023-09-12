@@ -30,14 +30,12 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(cookieParser())
 app.use(morganWinston)
-app.use('/login', loginRoutes)
-app.use('/home', homeRoutes)
-app.use('/blogs', blogsRoutes)
-app.use('/user', userRoutes)
 
 app.use(cors({
   origin: 'http://localhost:5173',  // Adjust this to your frontend's address
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'Authorization'],
 }));
 
 app.use((req, res, next) => {
@@ -50,6 +48,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   console.log('Access-Control headers:', res.get('Access-Control-Allow-Origin'));
   next();
 });
+
+app.use('/login', loginRoutes)
+app.use('/home', homeRoutes)
+app.use('/blogs', blogsRoutes)
+app.use('/user', userRoutes)
 
 httpsServer.listen(PORT, () => {
   console.log(`Server is running on https://localhost:${PORT}`)
