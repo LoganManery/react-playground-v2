@@ -1,7 +1,12 @@
+import Banner from "../components/Banners";
+
 export default function Home() {
     return (
         <>
-            <h1>Home Page</h1>
+          <div className="bg-piano-man w-screen h-screen">
+            <h1 className="">Home Page</h1>
+            <Banner />
+          </div>
         </>
     )
 }

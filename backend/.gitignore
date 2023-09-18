@@ -3,4 +3,4 @@ node_modules
 certs
 logs
 
-# Ignore all files in the root except the .gitignore file
+```

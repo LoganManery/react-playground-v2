@@ -1,5 +1,5 @@
 // Utilities
-import express, {Request, Response, NextFunction} from 'express'
+import express, { Request, Response, NextFunction} from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -7,10 +7,9 @@ import fs from 'fs'
 import https from 'https'
 
 // Routes
-import loginRoutes from './routes/login/login'
-import homeRoutes from './routes/home/home'
-import postsRoutes from './routes/posts/posts'
-import userRoutes from './routes/user/user'
+import loginRoutes from './routes/login'
+import homeRoutes from './routes/home'
+import userRoutes from './routes/user'
 import morganWinston from './helpers/morganWinston'
 
 const app = express()
@@ -51,7 +50,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/login', loginRoutes)
 app.use('/home', homeRoutes)
-app.use('/posts', postsRoutes)
 app.use('/user', userRoutes)
 
 httpsServer.listen(PORT, () => {

@@ -55,6 +55,7 @@ export default function Nav() {
         ">
         <CustomLink to="/">Home</CustomLink>
         <CustomLink to="/about">About</CustomLink>
+        <CustomLink to="/posts">Posts</CustomLink>
         <CustomLink to="/register">Register</CustomLink>
         <CustomLink to="/login">Login</CustomLink>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

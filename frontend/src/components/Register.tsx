@@ -12,7 +12,7 @@ export default function RegistrationForm() {
       e.preventDefault();
 
         try {
-            console.log(formData)
+            
             const response = await fetch('https://127.0.0.1:3000/user/create', {
                 method: 'POST',
                 headers: {
@@ -21,9 +21,9 @@ export default function RegistrationForm() {
                 body: JSON.stringify(formData),
                 credentials: 'include'
             });
-            console.log('Full response: ', response)
+            
             const data = await response.json();
-            console.log('parsed data: ', data)
+            
         
             if(response.ok) {
                 console.log(data.message);
