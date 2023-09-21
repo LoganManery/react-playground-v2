@@ -2,12 +2,11 @@ import express, {Request, Response} from 'express'
 import { Database } from '../database'
 import bcrypt from 'bcrypt'
 import multer from 'multer'
-import sharp from 'sharp'
-import path from 'path'
-import fs from 'fs'
+import handleImage from '../middleware/handleImage'
+import logError from '../middleware/logError'
+
 // import { fileTypeFromBuffer } from 'file-type/core'
-import NodeClam from 'clamscan'
-import virusScan from '../middleware/virusScan'
+
 
 const db = Database.getInstance()
 
@@ -67,10 +66,6 @@ router.post('/create', async (req: Request, res: Response) => {
   }
 })
 
-function logError(err: Error): void {
-  console.error(`[Error]:${err.message}`);
-}
-
 router.post('/post', upload.single('image'), async (req: Request, res: Response) => {
   try {
     const { title, content, slug } = req.body
@@ -105,37 +100,5 @@ router.post('/post', upload.single('image'), async (req: Request, res: Response)
     res.status(500).json({ message: 'Internal server error' })
   }
 })
-
-async function handleImage(file: Express.Multer.File): Promise<string> {
-  const imageBuffer = fs.readFileSync(file.path)
-  try {
-    // const type = await fileTypeFromBuffer(imageBuffer)
-
-    // if (!type || !['image/png', 'image/jpeg'].includes(type.mime)) {
-    //   throw new Error('Invalid file type')
-    // }
-
-    virusScan(file);
-
-  // Define a custom directory and filename
-    const directory = path.join(__dirname, '../images');
-    const filename = `optimized-${file.filename}.jpg`;
-    const outputPath = path.join(directory, filename);
-
-    await sharp(file.path)
-      .resize(800)
-      .jpeg({ quality: 80 })
-      .toFile(outputPath)
-
-    // Delete the original file
-    fs.unlinkSync(file.path)
-
-    return `/images/${filename}`
-  } catch (err: any) {
-    logError(err)
-    fs.unlinkSync(file.path)
-    throw err
-  }
-}
 
 export default router
