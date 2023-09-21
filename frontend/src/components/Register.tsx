@@ -48,10 +48,7 @@ export default function RegistrationForm() {
           gap-2
           border-purple-500
           shadow-slate-950
-          bg-gradient-to-bl  
-          from-sky-500
-          to-green-500
-          hover:bg-sky-700 
+          bg-rose-200
           sm:w-1/2
           md:w-1/3
           lg:w-1/4

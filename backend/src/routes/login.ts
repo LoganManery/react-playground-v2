@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express'
-import { Database } from '../database'
+import { Database } from '../database.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { authenticateJWT } from '../middleware/authenticateJWT'
+import { authenticateJWT } from '../middleware/authenticateJWT.js'
 
 const router = express.Router()
 

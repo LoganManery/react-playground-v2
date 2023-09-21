@@ -20,11 +20,14 @@ export default function Nav() {
   return (
     <nav className="
     flex 
+    gap-4
     justify-start
-    bg-gradient-to-tl 
-    from-blue-600 
-    to-orange-600
-     
+    bg-black
+    scrollbar-hide
+    w-screen
+    font-mono
+    text-xl
+    text-white
     ">
       <ul>
         <CustomLink to="/">
@@ -43,6 +46,7 @@ export default function Nav() {
           </svg>
         </CustomLink>
       </ul>
+      <h1 className="m-auto w-1/2">Logan Manery</h1>
       <ul className="
         flex
         m-auto 

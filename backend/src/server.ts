@@ -7,12 +7,14 @@ import fs from 'fs'
 import https from 'https'
 
 // Routes
-import loginRoutes from './routes/login'
-import homeRoutes from './routes/home'
-import userRoutes from './routes/user'
-import morganWinston from './helpers/morganWinston'
+import loginRoutes from './routes/login.js'
+import homeRoutes from './routes/home.js'
+import userRoutes from './routes/user.js'
+import morganWinston from './helpers/morganWinston.js'
+
 
 const app = express()
+
 
 dotenv.config()
 
@@ -55,3 +57,5 @@ app.use('/user', userRoutes)
 httpsServer.listen(PORT, () => {
   console.log(`Server is running on https://localhost:${PORT}`)
 })
+
+export default app

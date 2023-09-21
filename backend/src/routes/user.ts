@@ -1,27 +1,11 @@
 import express, {Request, Response} from 'express'
-import { Database } from '../database'
+import { Database } from '../database.js'
 import bcrypt from 'bcrypt'
-import multer from 'multer'
-import handleImage from '../middleware/handleImage'
-import logError from '../middleware/logError'
-
-// import { fileTypeFromBuffer } from 'file-type/core'
-
+import logError from '../helpers/logError.js'
 
 const db = Database.getInstance()
 
 const router = express.Router()
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb)=> {
-    cb(null, 'images/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-})
-
-const upload = multer({storage: storage})
 
 router.get('/user', async (req: Request, res: Response) =>  {
   try {
@@ -66,25 +50,17 @@ router.post('/create', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/post', upload.single('image'), async (req: Request, res: Response) => {
+router.post('/post', async (req: Request, res: Response) => {
   try {
-    const { title, content, slug } = req.body
+    const { headers, content} = req.body
 
-    if (!title || !content || !slug) {
+    if (!headers || !content) {
       return res.status(400).json({ msg: 'Please enter all required fields' })
     }
 
-    if(!req.file) {
-      return res.status(400).json({ msg: 'Please upload an image' })
-    }
-
-    const imagePath = await handleImage(req.file)
-
     const post = {
-      title: title,
-      content: content,
-      slug: slug,
-      image: imagePath
+      headers: headers,
+      content: content
     }
 
     const result = await db.query('INSERT INTO posts SET ?', post)
@@ -92,11 +68,6 @@ router.post('/post', upload.single('image'), async (req: Request, res: Response)
     return res.status(201).json({msg: 'Post added successfully', postId: result.insertId })
   } catch (err: any) {
     logError(err)
-
-    if (err.message.includes('Invalid file type') || err.message.includes('Virus detected')){
-      return res.status(400).json({ msg: err.message })
-    }
-
     res.status(500).json({ message: 'Internal server error' })
   }
 })

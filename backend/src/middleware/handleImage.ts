@@ -1,17 +1,19 @@
 import fs from 'fs'
 import path from 'path'
-import virusScan from './virusScan'
+import virusScan from './virusScan.js'
 import sharp from 'sharp'
-import logError from './logError'
+import logError from '../helpers/logError.js'
+import { fileTypeFromBuffer } from 'file-type'
 
 export default async function handleImage(file: Express.Multer.File): Promise<string> {
   const imageBuffer = fs.readFileSync(file.path)
-  try {
-    // const type = await fileTypeFromBuffer(imageBuffer)
 
-    // if (!type || !['image/png', 'image/jpeg'].includes(type.mime)) {
-    //   throw new Error('Invalid file type')
-    // }
+  try {
+    const type = await fileTypeFromBuffer(imageBuffer)
+
+    if (!type || !['image/png', 'image/jpeg'].includes(type.mime)) {
+      throw new Error('Invalid file type')
+    }
 
     virusScan(file);
 
