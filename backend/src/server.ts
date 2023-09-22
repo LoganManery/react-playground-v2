@@ -5,11 +5,13 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fs from 'fs'
 import https from 'https'
+import multer from 'multer'
 
 // Routes
 import loginRoutes from './routes/login.js'
 import homeRoutes from './routes/home.js'
 import userRoutes from './routes/user.js'
+import imageRoutes from './routes/images.js'
 import morganWinston from './helpers/morganWinston.js'
 
 
@@ -27,6 +29,17 @@ const certificate = fs.readFileSync(process.env.CERT_CERT_PATH, 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const httpsServer = https.createServer(credentials, app);
 const PORT = process.env.PORT || 3000
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/')
+  },
+  filename: (_req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage })
 
 app.use(express.json())
 app.use(cookieParser())
@@ -53,6 +66,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/login', loginRoutes)
 app.use('/home', homeRoutes)
 app.use('/user', userRoutes)
+app.use('/images', imageRoutes)
+
+app.use('/images', express.static('uploads'))
 
 httpsServer.listen(PORT, () => {
   console.log(`Server is running on https://localhost:${PORT}`)
