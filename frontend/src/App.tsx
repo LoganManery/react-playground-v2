@@ -5,7 +5,6 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
 import Posts from "./pages/Posts"
-import Nav from './components/Nav';
 
 function App() {
 
